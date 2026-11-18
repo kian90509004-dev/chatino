@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>چتینو</title>
+<style>
+:root{--p:#7650d8;--p2:#9a78ed;--ink:#29243a;--muted:#91899e;--bg:#eaf3f8;--line:#eeeaf4;--white:#fff;--soft:#f0eaff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Tahoma,Arial,sans-serif;color:var(--ink)}button,input{font:inherit}button{cursor:pointer;border:0}
+.app{max-width:520px;min-height:100vh;margin:auto;background:#f5fafc;position:relative;box-shadow:0 0 30px #24134412;padding-bottom:74px}
+.top{height:60px;display:flex;align-items:center;padding:0 16px;gap:12px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:5}
+.brand{font-size:21px;font-weight:bold;color:var(--p);flex:1}.brand small{font-size:10px;color:var(--muted);font-weight:normal;margin-right:5px}
+.topbtn{width:38px;height:38px;border-radius:13px;background:#f5f2fa;color:var(--p);font-size:19px}
+.searchbar{margin:12px 14px;background:#f4f2f7;border-radius:14px;padding:11px 13px;display:flex;gap:8px;color:#999}
+.searchbar input{border:0;background:transparent;outline:0;width:100%;font-size:12px}
+.page{display:none;padding-bottom:15px}.page.active{display:block}
+.sectionhead{padding:17px 16px 10px;display:flex;align-items:center;justify-content:space-between}.sectionhead h2{font-size:17px;margin:0}.sectionhead button{color:var(--p);background:var(--soft);border-radius:10px;padding:8px 12px;font-size:11px}
+.shortcuts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:7px 13px 15px}
+.shortcut{text-align:center;font-size:10px;color:#625b70}.shortcut .ico{width:53px;height:53px;border-radius:18px;margin:0 auto 7px;display:grid;place-items:center;font-size:23px;background:#f1eaff;color:var(--p)}
+.storystrip{display:flex;gap:13px;padding:5px 15px 16px;overflow:auto}
+.story{min-width:61px;text-align:center;font-size:10px;color:#777}.storypic{width:58px;height:58px;border-radius:20px;padding:3px;background:linear-gradient(135deg,#b49aff,#7148d3);margin:0 auto 6px}.storypic span{display:grid;place-items:center;width:100%;height:100%;background:#fff;border-radius:17px;font-size:22px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 14px}
+.tile{border-radius:17px;padding:14px;background:linear-gradient(135deg,#f0eaff,#faf8ff);min-height:105px}.tile:nth-child(2){background:linear-gradient(135deg,#fceeff,#fff8fc)}.tile:nth-child(3){background:linear-gradient(135deg,#eaf6ff,#f8fcff)}.tile:nth-child(4){background:linear-gradient(135deg,#edfaef,#f9fff9)}
+.tile b{font-size:12px}.tile p{font-size:10px;color:var(--muted);line-height:1.7;margin:7px 0 0}.tile .emoji{font-size:22px;margin-bottom:7px}
+.list{padding:0 12px}.chatrow{display:flex;align-items:center;gap:11px;padding:12px 4px;border-bottom:1px solid #f3f0f6;cursor:pointer}.avatar{width:49px;height:49px;border-radius:17px;background:linear-gradient(140deg,#cbb8ff,#805bdc);display:grid;place-items:center;color:white;font-size:21px;flex-shrink:0}.chatinfo{flex:1;min-width:0}.chatname{font-size:13px;font-weight:bold;display:flex;justify-content:space-between;gap:6px}.preview{font-size:10px;color:var(--muted);margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tiny{font-size:9px;color:#aaa;font-weight:normal}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);height:70px;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);z-index:8;padding-bottom:env(safe-area-inset-bottom)}
+.tab{background:#fff;color:#999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:20px}.tab span{font-size:9px}.tab.active{color:var(--p);font-weight:bold}.tab.active:before{content:"";width:22px;height:3px;border-radius:5px;background:var(--p);position:absolute;top:0}
+.panel{padding:15px}.panel h2{font-size:18px;margin:4px 0 7px}.muted{font-size:11px;color:var(--muted);line-height:1.9}
+.card{border:1px solid var(--line);border-radius:17px;padding:14px;margin:10px 0;background:#fff}
+.inputrow{display:flex;gap:7px;margin:12px 0}.inputrow input{min-width:0;flex:1;border:1px solid var(--line);border-radius:12px;padding:12px;outline-color:var(--p);font-size:12px}
+.primary{background:var(--p);color:white;border-radius:12px;padding:11px 14px;font-size:11px}.softbtn{background:var(--soft);color:var(--p);border-radius:11px;padding:9px 12px;font-size:11px}
+.post{border:1px solid var(--line);border-radius:17px;margin:12px 14px;padding:14px}.posthead{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:bold}.postbody{font-size:12px;line-height:2;margin:14px 0}.postactions{display:flex;gap:8px}
+.chatview{display:none;position:fixed;inset:0;background:#faf9fd;z-index:20;max-width:520px;margin:auto;flex-direction:column}.chatview.open{display:flex}.chatbar{height:60px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 12px;gap:10px}.chatbar button{background:var(--soft);color:var(--p);border-radius:11px;width:36px;height:36px}.chatmessages{flex:1;overflow:auto;padding:15px;display:flex;flex-direction:column;gap:10px}.bubble{max-width:78%;padding:11px 13px;background:#fff;border-radius:16px 16px 5px 16px;font-size:12px;line-height:1.8;align-self:flex-start;box-shadow:0 2px 7px #3420500a}.bubble.mine{align-self:flex-end;background:#eae2ff;border-radius:16px 16px 16px 5px}.compose{display:flex;gap:8px;padding:10px;background:#fff;border-top:1px solid var(--line)}.compose input{flex:1;min-width:0;border:0;background:#f4f2f7;border-radius:13px;padding:12px;outline:0;font-size:12px}.compose button{width:43px;border-radius:13px;background:var(--p);color:#fff}
+.empty{text-align:center;padding:35px 15px;color:var(--muted);font-size:12px}
+@media(min-width:700px){body{padding:18px 0}.app{border-radius:22px;overflow:hidden;min-height:calc(100vh - 36px)}.bottom{bottom:18px;border-radius:0 0 22px 22px}.chatview{top:18px;bottom:18px;border-radius:22px;overflow:hidden}}
+</style></head>
+<body>
+<div class="app">
+<header class="top"><div class="brand">چتینو <small>دنیای ارتباط تو</small></div><button class="topbtn" onclick="openPage('profile')">♙</button><button class="topbtn" onclick="openPage('settings')">⚙</button></header>
+
+<section class="page active" id="home">
+ <div class="sectionhead"><h2>خانه</h2><button onclick="openPage('services')">همه خدمات</button></div>
+ <div class="shortcuts">
+  <div class="shortcut" onclick="openPage('chats')"><div class="ico">✉</div>پیام‌رسان</div>
+  <div class="shortcut" onclick="openPage('rubino')"><div class="ico">▧</div>روبینو</div>
+  <div class="shortcut" onclick="openPage('channels')"><div class="ico">▣</div>کانال‌ها</div>
+  <div class="shortcut" onclick="openPage('groups')"><div class="ico">♧</div>گروه‌ها</div>
+ </div>
+ <div class="sectionhead"><h2>وضعیت دوستان</h2><button onclick="addStory()">＋ وضعیت من</button></div>
+ <div class="storystrip" id="homeStories"></div>
+ <div class="sectionhead"><h2>دسترسی سریع</h2></div>
+ <div class="tiles">
+  <div class="tile" onclick="openPage('saved')"><div class="emoji">☆</div><b>پیام‌های ذخیره‌شده</b><p>یادداشت‌ها و پیام‌های مهم</p></div>
+  <div class="tile" onclick="openPage('calls')"><div class="emoji">☎</div><b>تماس‌ها</b><p>تماس صوتی و تصویری</p></div>
+  <div class="tile" onclick="openPage('groups')"><div class="emoji">👥</div><b>ساخت گروه</b><p>گفت‌وگو با دوستان</p></div>
+  <div class="tile" onclick="openPage('channels')"><div class="emoji">📢</div><b>کانال‌ها</b><p>مطالب موردعلاقه‌ات</p></div>
+ </div>
+ <div class="sectionhead"><h2>آخرین پیام‌ها</h2><button onclick="openPage('chats')">مشاهده همه</button></div><div class="list" id="homeChats"></div>
+</section>
+
+<section class="page" id="chats">
+ <div class="sectionhead"><h2>پیام‌رسان</h2><button onclick="newChat()">＋ گفت‌وگوی جدید</button></div>
+ <div class="searchbar">⌕ <input id="chatSearch" placeholder="جست‌وجو در پیام‌ها" oninput="renderChats()"></div>
+ <div class="list" id="chatList"></div>
+</section>
+<section class="page" id="rubino">
+ <div class="sectionhead"><h2>روبینو</h2><button onclick="publishPost()">＋ ایجاد پست</button></div>
+ <div class="muted" style="padding:0 16px">پست‌ها و لحظه‌های دوستانت را ببین و با آن‌ها تعامل کن.</div>
+ <div id="posts"></div>
+</section>
+<section class="page" id="stories">
+ <div class="sectionhead"><h2>استوری‌ها</h2><button onclick="addStory()">＋ افزودن استوری</button></div>
+ <div class="muted" style="padding:0 16px">وضعیت‌های کوتاه خودت و دوستانت را ببین.</div>
+ <div class="storystrip" id="storiesPageList"></div>
+ <div class="card" style="margin:14px"><b>استوری من</b><p class="muted">برای انتشار استوری متنی روی دکمه افزودن استوری بزن.</p></div>
+</section>
+<section class="page" id="services">
+ <div class="panel"><h2>خدمات چتینو</h2><p class="muted">بخش‌های مختلف چتینو در یک‌جا</p><div class="tiles">
+ <div class="tile" onclick="openPage('groups')"><div class="emoji">👥</div><b>گروه‌ها</b><p>ساخت و مدیریت گروه</p></div>
+ <div class="tile" onclick="openPage('channels')"><div class="emoji">📢</div><b>کانال‌ها</b><p>دنبال‌کردن کانال‌ها</p></div>
+ <div class="tile" onclick="openPage('calls')"><div class="emoji">☎</div><b>تماس</b><p>تماس با دوستان</p></div>
+ <div class="tile" onclick="openPage('saved')"><div class="emoji">☆</div><b>ذخیره‌ها</b><p>پیام‌های مهم</p></div>
+ </div></div>
+</section>
+<section class="page" id="groups"><div class="panel"><h2>گروه‌ها</h2><p class="muted">گروه جدید بساز و دوستانت را دور هم جمع کن.</p><div class="inputrow"><input id="groupName" placeholder="نام گروه"><button class="primary" onclick="createItem('groups','groupName')">ساخت</button></div><div id="groupItems"></div></div></section>
+<section class="page" id="channels"><div class="panel"><h2>کانال‌ها</h2><p class="muted">کانال‌های چتینو را دنبال کن یا کانال جدید بساز.</p><div class="inputrow"><input id="channelName" placeholder="نام کانال"><button class="primary" onclick="createItem('channels','channelName')">ساخت</button></div><div id="channelItems"></div></div></section>
+<section class="page" id="calls"><div class="panel"><h2>تماس‌ها</h2><div class="card">☎️ <b>تماس‌های اخیر</b><p class="muted">برای برقراری تماس واقعی، اتصال به سرور تماس لازم است. این نسخه فعلاً ظاهر این بخش را نشان می‌دهد.</p></div></div></section>
+<section class="page" id="saved"><div class="panel"><h2>پیام‌های ذخیره‌شده</h2><p class="muted">یادداشت‌های شخصی تو</p><div class="card" id="savedContent">هنوز یادداشتی ذخیره نشده است.</div><div class="inputrow"><input id="noteText" placeholder="یادداشت جدید"><button class="primary" onclick="saveNote()">ذخیره</button></div></div></section>
+<section class="page" id="profile"><div class="panel"><h2>حساب کاربری</h2><div class="card" style="text-align:center"><div class="avatar" style="margin:auto;width:75px;height:75px;font-size:30px">🙂</div><h3 id="profileName">کاربر چتینو</h3><p class="muted">حساب آزمایشی</p><button class="softbtn" onclick="editProfile()">ویرایش نام</button></div><div class="card"><b>حریم خصوصی و حساب</b><p class="muted">اطلاعات این نسخه روی همین مرورگر ذخیره می‌شود.</p></div></div></section>
+<section class="page" id="settings"><div class="panel"><h2>تنظیمات</h2><div class="card"><b>ظاهر برنامه</b><p class="muted">تم بنفش چتینو فعال است.</p></div><div class="card"><b>اعلان‌ها</b><p class="muted">تنظیم اعلان‌ها در نسخه متصل به سرور فعال خواهد شد.</p></div><div class="card"><b>درباره چتینو</b><p class="muted">نسخه آزمایشی ۸</p></div></div></section>
+
+<nav class="bottom">
+ <button class="tab active" data-tab="home" onclick="openPage('home')">⌂<span>خانه</span></button>
+ <button class="tab" data-tab="chats" onclick="openPage('chats')">✉<span>پیام‌رسان</span></button>
+ <button class="tab" data-tab="stories" onclick="openPage('stories')">◉<span>استوری</span></button>
+ <button class="tab" data-tab="services" onclick="openPage('services')">▦<span>خدمات</span></button>
+ <button class="tab" data-tab="profile" onclick="openPage('profile')">♙<span>پروفایل</span></button>
+</nav>
+</div>
+<div class="chatview" id="chatView"><div class="chatbar"><button onclick="closeChat()">‹</button><div class="avatar" id="chatAvatar">🙂</div><b id="chatTitle" style="font-size:13px;flex:1">گفت‌وگو</b><button onclick="alert('تماس واقعی در نسخه بعدی با سرور فعال می‌شود.')">☎</button></div><div class="chatmessages" id="chatMessages"></div><form class="compose" onsubmit="sendMessage(event)"><button type="button" class="softbtn" onclick="alert('ارسال فایل واقعی هنوز فعال نیست.')">＋</button><input id="msg" placeholder="پیام بنویس..."><button>➤</button></form></div>
+<script>
+const $=id=>document.getElementById(id);
+let db=JSON.parse(localStorage.getItem('chatino_v8')||'null')||{chats:[{id:1,name:'پشتیبانی چتینو',emoji:'💜',messages:[{text:'به چتینو خوش آمدی! نسخه جدید را آزمایش کن.',mine:false}]},{id:2,name:'دوست من',emoji:'😊',messages:[{text:'سلام! خوبی؟',mine:false}]},{id:3,name:'یادداشت‌های من',emoji:'📝',messages:[]}],groups:['گروه دوستان'],channels:['خبرهای چتینو'],stories:['🌸','🎮','🙂'],posts:[{name:'چتینو',text:'به فضای اجتماعی چتینو خوش آمدید 💜',likes:8}],notes:[],profile:'کاربر چتینو'};
+let current=null;
+function save(){localStorage.setItem('chatino_v8',JSON.stringify(db))}
+function openPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===id));if(id==='chats')renderChats();if(id==='home')renderHome();if(id==='rubino')renderPosts();if(id==='stories')renderStories();if(id==='groups')renderItems('groups','groupItems');if(id==='channels')renderItems('channels','channelItems');if(id==='saved')renderNotes();window.scrollTo(0,0)}
+function renderChatRows(target,arr){$(target).innerHTML=arr.map(c=>`<div class="chatrow" onclick="openChat(${c.id})"><div class="avatar">${c.emoji}</div><div class="chatinfo"><div class="chatname">${safe(c.name)} <span class="tiny">امروز</span></div><div class="preview">${safe(c.messages.at(-1)?.text||'شروع گفت‌وگو')}</div></div></div>`).join('')}
+function renderChats(){let q=($('chatSearch')?.value||'').trim();renderChatRows('chatList',db.chats.filter(c=>c.name.includes(q)))}
+function renderStories(){ $('storiesPageList').innerHTML=`<div class="story" onclick="addStory()"><div class="storypic"><span>＋</span></div>استوری من</div>`+db.stories.map(s=>`<div class="story"><div class="storypic"><span>${safe(s)}</span></div>دوست چتینو</div>`).join('');}
+function renderHome(){ $('homeStories').innerHTML=`<div class="story" onclick="addStory()"><div class="storypic"><span>＋</span></div>وضعیت من</div>`+db.stories.map(s=>`<div class="story"><div class="storypic"><span>${safe(s)}</span></div>دوست چتینو</div>`).join('');renderChatRows('homeChats',db.chats.slice(0,3))}
+function openChat(id){current=db.chats.find(c=>c.id===id);if(!current)return;$('chatTitle').textContent=current.name;$('chatAvatar').textContent=current.emoji;$('chatView').classList.add('open');drawMessages()}
+function closeChat(){$('chatView').classList.remove('open');current=null}
+function drawMessages(){$('chatMessages').innerHTML=current.messages.map(m=>`<div class="bubble ${m.mine?'mine':''}">${safe(m.text)}</div>`).join('');$('chatMessages').scrollTop=$('chatMessages').scrollHeight}
+function sendMessage(e){e.preventDefault();let v=$('msg').value.trim();if(!v||!current)return;current.messages.push({text:v,mine:true});$('msg').value='';save();drawMessages();renderChats();renderHome()}
+function newChat(){let n=prompt('نام مخاطب را وارد کن:');if(!n)return;let c={id:Date.now(),name:n,emoji:'🙂',messages:[]};db.chats.unshift(c);save();renderChats();openChat(c.id)}
+function createItem(k,input){let v=$(input).value.trim();if(!v)return;db[k].push(v);$(input).value='';save();renderItems(k,k==='groups'?'groupItems':'channelItems')}
+function renderItems(k,target){$(target).innerHTML=db[k].map(x=>`<div class="chatrow"><div class="avatar">${k==='groups'?'👥':'📢'}</div><div class="chatinfo"><div class="chatname">${safe(x)}</div><div class="preview">${k==='groups'?'گروه چتینو':'کانال چتینو'}</div></div></div>`).join('')||'<div class="empty">هنوز موردی اضافه نشده است.</div>'}
+function addStory(){let s=prompt('متن کوتاه وضعیتت را بنویس:');if(!s)return;db.stories.unshift(s.slice(0,35));save();renderHome()}
+function publishPost(){let t=prompt('متن پستت را بنویس:');if(!t)return;db.posts.unshift({name:db.profile,text:t,likes:0});save();renderPosts()}
+function renderPosts(){$('posts').innerHTML=db.posts.map((p,i)=>`<div class="post"><div class="posthead"><div class="avatar" style="width:36px;height:36px">چ</div>${safe(p.name)}</div><div class="postbody">${safe(p.text)}</div><div class="postactions"><button class="softbtn" onclick="like(${i})">♡ ${p.likes} پسند</button><button class="softbtn" onclick="alert('بخش دیدگاه‌ها در نسخه آزمایشی است.')">دیدگاه</button></div></div>`).join('')}
+function like(i){db.posts[i].likes++;save();renderPosts()}
+function saveNote(){let v=$('noteText').value.trim();if(!v)return;db.notes.unshift(v);$('noteText').value='';save();renderNotes()}
+function renderNotes(){$('savedContent').innerHTML=db.notes.map(x=>`<p>☆ ${safe(x)}</p>`).join('')||'هنوز یادداشتی ذخیره نشده است.'}
+function editProfile(){let n=prompt('نام نمایشی جدید:',db.profile);if(n){db.profile=n;save();$('profileName').textContent=n}}
+function safe(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+renderHome();renderChats();renderPosts();$('profileName').textContent=db.profile;
+</script></body></html>
